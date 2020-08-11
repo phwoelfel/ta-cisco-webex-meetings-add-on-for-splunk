@@ -113,10 +113,50 @@ fields_additional_parameters = [
         )
     ),
     field.RestField(
+        'password_type',
+        required=False,
+        encrypted=False,
+        default='',
+        validator=validator.String(
+            min_len=0,
+            max_len=8192,
+        )
+    ),
+    field.RestField(
         'password',
-        required=True,
+        required=False,
         encrypted=True,
         default='*  *  *',
+        validator=validator.String(
+            min_len=0,
+            max_len=8192,
+        )
+    ),
+    field.RestField(
+        'client_id',
+        required=False,
+        encrypted=False,
+        default='',
+        validator=validator.String(
+            min_len=0,
+            max_len=8192,
+        )
+    ),
+    field.RestField(
+        'client_secret',
+        required=False,
+        encrypted=True,
+        default='',
+        validator=validator.String(
+            min_len=0,
+            max_len=8192,
+        )
+    ),
+    field.RestField(
+        'refresh_token',
+        required=False,
+        encrypted=False,
+        default='',
         validator=validator.String(
             min_len=0,
             max_len=8192,

@@ -15,7 +15,7 @@ except:
 from io import StringIO
 
 
-from utils.webex_constant import tag_map, sourcetype_map, timestamp_map, start_time_map
+from utils.webex_constant import tag_map, sourcetype_map, timestamp_map, start_time_map, authentication_type
 from utils.xml_payload_format import xml_format
 
 
@@ -34,7 +34,24 @@ def fetch_webex_logs(ew, helper, params):
     headers = {
         'Content-Type': 'application/xml'
     }
-
+    
+    if(params['password_type'] == authentication_type['OAuth']):
+        # refresh oauth access token
+        refreshTokenParams = {
+            "grant_type": "refresh_token",
+            "client_id": params['client_id'],
+            "client_secret": params['client_secret'],
+            "refresh_token": params['refresh_token'],
+        }
+        refreshTokenResponse = requests.post('https://api.webex.com/v1/oauth2/token', data=refreshTokenParams, headers={"Content-Type": "application/x-www-form-urlencoded"})
+        helper.log_debug("refresh response: {}".format(refreshTokenResponse.text))
+        if(refreshTokenResponse.status_code == 200):
+            accessToken = refreshTokenResponse.json()['access_token']
+            helper.log_debug("Refreshed oAuth access token: {}".format(accessToken))
+            
+            # overwrite password field with access token
+            params['opt_password'] = accessToken
+    
     # Build Payload
     payload = xml_format(params)
 

@@ -13,4 +13,8 @@ loglevel =
 [additional_parameters]
 site_name = 
 username = 
+password_type = 
 password = 
+client_id = 
+client_secret = 
+refresh_token = 

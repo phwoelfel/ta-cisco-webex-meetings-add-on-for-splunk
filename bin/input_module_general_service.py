@@ -53,8 +53,12 @@ def collect_events(helper, ew):
               "opt_site_name": helper.get_global_setting("site_name"),
               "limit": 500,
               "timezone": "20",
-              "password_type": authentication_type["Password Authentication"],
-              # "password_type": helper.get_global_setting("password_type"),
+              # "password_type": authentication_type["Password Authentication"],
+              # "password_type": authentication_type["OAuth"],
+              "password_type": authentication_type[helper.get_global_setting("password_type")],
+              "client_id": helper.get_global_setting("client_id"),
+              "client_secret": helper.get_global_setting("client_secret"),
+              "refresh_token": helper.get_global_setting("refresh_token"),
               "proxies": proxies}
 
     params.update({"opt_endpoint": "LstsummarySession"})
